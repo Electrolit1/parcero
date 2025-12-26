@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>El Parcero - FoodTruck</title>
+  <title>El Parcero</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <script src="https://kit.fontawesome.com/a2d04a4f3f.js" crossorigin="anonymous"></script>
 
@@ -20,7 +20,6 @@
       overflow-x: hidden;
     }
 
-    /* LOADER */
     #loader {
       position: fixed; inset: 0; background: #000;
       display: flex; flex-direction: column; justify-content: center; align-items: center;
@@ -115,24 +114,21 @@
 
 
 <script>
-  // Lógica de Loader por Sesión
   const loader = document.getElementById('loader');
   
-  // Si NO existe el registro en la sesión actual, mostramos el loader
   if (!sessionStorage.getItem('loaderSeen')) {
     loader.style.display = 'flex';
     
     function closeLoader() {
       loader.classList.add('fade-out');
-      sessionStorage.setItem('loaderSeen', 'true'); // Marcamos como visto
+      sessionStorage.setItem('loaderSeen', 'true'); 
       setTimeout(() => loader.style.display = 'none', 600);
     }
 
     window.addEventListener('load', closeLoader);
-    setTimeout(closeLoader, 3000); // Seguro por si falla la carga
+    setTimeout(closeLoader, 3000); 
   }
 
-  // Horario (12 PM a 12 AM)
   function checkTime() {
     const hora = new Date().getHours();
     const btn = document.getElementById('status-btn');
@@ -146,7 +142,6 @@
   }
   checkTime();
 
-  // Slider Automático
   let index = 0;
   setInterval(() => {
     const slider = document.getElementById('slider');
