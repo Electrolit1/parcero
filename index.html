@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>El Parcero - Food Truck</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/a2d04a4f3f.js" crossorigin="anonymous"></script>
+
+  <style>
+    :root {
+      --primary: #4CAF50;
+      --dark: #0D1117;
+      --card: rgba(255, 255, 255, 0.05);
+    }
+
+    body {
+      margin: 0; font-family: 'Poppins', sans-serif;
+      background-color: var(--dark); color: white; text-align: center;
+      overflow-x: hidden;
+    }
+
+    /* LOADER */
+    #loader {
+      position: fixed; inset: 0; background: #000;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      z-index: 10000; transition: opacity 0.5s ease;
+    }
+    #loader.fade-out { opacity: 0; pointer-events: none; }
+    #loader img { width: 100px; height: 100px; object-fit: contain; animation: pulse 1.5s infinite; }
+
+    @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+
+    /* HEADER */
+    header { padding: 40px 20px 20px; display: flex; flex-direction: column; align-items: center; }
+    
+    /* LOGO CORREGIDO: box-sizing y dimensiones fijas para que no se tuerza */
+    .logo-principal { 
+      width: 130px; 
+      height: 130px; 
+      object-fit: cover; 
+      border-radius: 50%; 
+      border: 3px solid var(--primary); 
+      padding: 5px; 
+      margin-bottom: 15px;
+      box-sizing: border-box; 
+    }
+
+    .status-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 16px; border-radius: 50px; font-size: 0.8rem; font-weight: bold;
+      text-transform: uppercase; margin-bottom: 15px;
+    }
+    .abierto { background: var(--primary); box-shadow: 0 0 15px rgba(76, 175, 80, 0.4); }
+    .cerrado { background: #f44336; }
+
+    /* SLIDER */
+    .slider-container {
+      width: 90%; max-width: 500px; margin: 20px auto;
+      overflow: hidden; border-radius: 15px; position: relative;
+      background: #1a1a1a; aspect-ratio: 16/9;
+    }
+    .slider { display: flex; transition: transform 0.6s ease-in-out; height: 100%; }
+    .slide { min-width: 100%; height: 100%; object-fit: cover; }
+
+    /* BOTONES */
+    .btn-container { padding: 10px 20px 30px; display: flex; flex-direction: column; gap: 15px; max-width: 400px; margin: 0 auto; }
+    .btn {
+      display: flex; align-items: center; justify-content: center; gap: 12px;
+      padding: 16px; background: var(--card); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px; color: white; text-decoration: none; font-weight: 600;
+      transition: 0.3s; cursor: pointer;
+    }
+    .btn:hover { background: rgba(255,255,255,0.1); transform: translateY(-3px); }
+    .btn-menu { background: var(--primary); border: none; font-family: inherit; font-size: 1rem; }
+
+    /* MODAL */
+    #menuModal {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.9);
+      display: none; justify-content: center; align-items: center; z-index: 10001; padding: 20px;
+    }
+    .modal-content { position: relative; max-width: 500px; width: 100%; }
+    .modal-content img { width: 100%; border-radius: 10px; }
+    .btn-cerrar { position: absolute; top: -45px; right: 0; color: white; font-size: 2.5rem; cursor: pointer; }
+
+    footer { padding: 30px 20px; font-size: 0.8rem; opacity: 0.4; }
+  </style>
+</head>
+<body>
+
+<div id="loader">
+  <img src="img/logo.png" alt="Logo">
+  <p style="margin-top: 15px; letter-spacing: 2px;">CARGANDO...</p>
+</div>
+
+<header>
+  <img src="img/logo.png" class="logo-principal" alt="El Parcero Logo">
+  <div id="status-btn" class="status-badge">Verificando...</div>
+  <h1 style="margin: 0; font-size: 1.8rem;">EL PARCERO</h1>
+  <p style="margin: 5px 0; opacity: 0.7;">¡El mejor sabor urbano!</p>
+</header>
+
+<div class="slider-container">
+  <div class="slider" id="slider">
+    <img src="img/foto1.jpg" class="slide" alt="Comida 1" onerror="this.src='https://via.placeholder.com/500x300?text=Foto+1'">
+    <img src="img/foto2.jpg" class="slide" alt="Comida 2" onerror="this.src='https://via.placeholder.com/500x300?text=Foto+2'">
+    <img src="img/foto3.jpg" class="slide" alt="Comida 3" onerror="this.src='https://via.placeholder.com/500x300?text=Foto+3'">
+  </div>
+</div>
+
+<div class="btn-container">
+  <button class="btn btn-menu" onclick="document.getElementById('menuModal').style.display='flex'">
+    <i class="fas fa-utensils"></i> VER NUESTRO MENÚ
+  </button>
+
+  <a href="https://wa.me/message/BIA422S7OOOKB1" target="_blank" class="btn">
+    <i class="fab fa-whatsapp" style="color: #25D366;"></i> WhatsApp
+  </a>
+
+  <a href="https://instagram.com/elparcero_foodtruck" target="_blank" class="btn">
+    <i class="fab fa-instagram" style="color: #E1306C;"></i> Instagram
+  </a>
+
+  <a href="https://maps.app.goo.gl/TU_LINK_AQUI" target="_blank" class="btn">
+    <i class="fas fa-map-marker-alt" style="color: #FF5252;"></i> Ubicación
+  </a>
+</div>
+
+<div id="menuModal" onclick="this.style.display='none'">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <span class="btn-cerrar" onclick="document.getElementById('menuModal').style.display='none'">&times;</span>
+    <img src="img/carta.jpg" alt="Menú Digital" onerror="this.src='https://via.placeholder.com/500x700?text=Menú+No+Encontrado'">
+  </div>
+</div>
+
+<footer>
+  <p>© 2025 El Parcero | Fast Food</p>
+</footer>
+
+<script>
+  // Quitar Loader
+  function closeLoader() {
+    const loader = document.getElementById('loader');
+    loader.classList.add('fade-out');
+    setTimeout(() => loader.style.display = 'none', 600);
+  }
+  window.addEventListener('load', closeLoader);
+  setTimeout(closeLoader, 3000); // Seguro por si falla la carga
+
+  // Horario (12 PM a 12 AM)
+  function checkTime() {
+    const hora = new Date().getHours();
+    const btn = document.getElementById('status-btn');
+    if (hora >= 12 && hora < 24) {
+      btn.innerHTML = '<i class="fas fa-check-circle"></i> Abierto Ahora';
+      btn.className = 'status-badge abierto';
+    } else {
+      btn.innerHTML = '<i class="fas fa-clock"></i> Cerrado';
+      btn.className = 'status-badge cerrado';
+    }
+  }
+  checkTime();
+
+  // Slider Automático
+  let index = 0;
+  setInterval(() => {
+    const slider = document.getElementById('slider');
+    index = (index + 1) % 3; 
+    slider.style.transform = `translateX(-${index * 100}%)`;
+  }, 4000);
+</script>
+
+</body>
+</html>
